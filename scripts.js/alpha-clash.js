@@ -15,8 +15,12 @@
 
 // This is the audio setup
 const audio = new Audio();
-
 let isGamePlayOn = false;
+const artBoard = document.getElementById('art-board');
+const modalBox = document.getElementById('modal-box');
+
+
+
 
 function handleKeyBoardKeyUpEvent(event){
     if(isGamePlayOn == false) return;
@@ -69,8 +73,14 @@ function handleKeyBoardKeyUpEvent(event){
         audio.src = "../audio/wrong.mp3";
         audio.play();
 
+        
+
         const currentLife = getTextElementValueById('current-life');
         const updatedLife = currentLife - 1
+
+        const updatedLifePercentage = (updatedLife / 5) * 100;
+        artBoard.style.background = `linear-gradient(#FFFFFFB3 ${updatedLifePercentage}%,red)`;
+
         setTextElementValueById('current-life', updatedLife);
 
         if(updatedLife === 0){
@@ -150,4 +160,19 @@ function gameOver(){
     // console.log(currentAlphabet);
 
     removeBackgroundColorById(currentAlphabet);
+    artBoard.style.background = "linear-gradient(#FFFFFFb3 100%,red)"
 }
+
+
+function modalOpen(event){
+    if(event.clientY < 20){
+        modalBox.style.display = 'flex';
+    }
+}
+
+function modalClose(){
+    modalBox.style.display = "none";
+}
+
+
+document.body.onmousemove = modalOpen;
