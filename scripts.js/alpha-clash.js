@@ -10,8 +10,16 @@
 //     playGroundSection.classList.remove('hidden');
 //     // console.log(playGroundSection.classList);
 // }
- 
+
+
+
+// This is the audio setup
+const audio = new Audio();
+
+let isGamePlayOn = false;
+
 function handleKeyBoardKeyUpEvent(event){
+    if(isGamePlayOn == false) return;
     const playerPressed = event.key;
     console.log( 'player pressed', playerPressed);
 
@@ -29,18 +37,12 @@ function handleKeyBoardKeyUpEvent(event){
     if(playerPressed === expectedAlphabet){
         console.log('You got a point !');
 
+        audio.src = "../audio/success.mp3";
+        audio.play();
+
         const currentScore = getTextElementValueById('current-score');
         const updatedScore = currentScore + 1;
         setTextElementValueById('current-score', updatedScore);
-
-
-
-
-
-
-
-
-
         //-----------------------------------------------------
         // update score:
         // 1.get the current score
@@ -63,6 +65,9 @@ function handleKeyBoardKeyUpEvent(event){
         continueGame();
     }else{
         console.log('Dhur mia vaiya ba apu sothik ta chapen');
+
+        audio.src = "../audio/wrong.mp3";
+        audio.play();
 
         const currentLife = getTextElementValueById('current-life');
         const updatedLife = currentLife - 1
@@ -110,10 +115,11 @@ function continueGame(){
 function play(){
 
     //hide everything show only the playground
-
+    console.log('play button clicked');
     hideElementById('home-screen');
     hideElementById('final-score');
     showElementById('play-ground');
+    isGamePlayOn = true;
 
     //reset score and life
 
@@ -129,6 +135,8 @@ function play(){
 function gameOver(){
     hideElementById('play-ground');
     showElementById('final-score');
+
+    isGamePlayOn = false
 
     //update final score
     // 1.get the final score
